@@ -1,0 +1,5 @@
+node_modules/
+.build/
+dist/
+qa/sections/
+qa/screens/*-full.png
