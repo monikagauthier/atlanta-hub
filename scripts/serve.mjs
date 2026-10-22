@@ -23,7 +23,16 @@ const types = {
 
 export function startServer(port = 4173) {
   const server = createServer((req, res) => {
-    const url = decodeURIComponent((req.url || '/').split('?')[0]);
+    let url = decodeURIComponent((req.url || '/').split('?')[0]);
+    // Simula subcaminho (ex.: BASE_PATH=/atlanta-hub, como no GitHub Pages).
+    const base = (process.env.BASE_PATH || '').replace(/\/+$/, '');
+    if (base) {
+      if (url !== base && !url.startsWith(base + '/')) {
+        res.writeHead(404).end('404');
+        return;
+      }
+      url = url.slice(base.length) || '/';
+    }
     let file = normalize(join(root, url));
     if (!file.startsWith(root)) {
       res.writeHead(403).end();

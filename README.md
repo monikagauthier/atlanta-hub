@@ -59,6 +59,8 @@ Os nomes de canais do mockup ficam em `SERVER_MAP` e `EXPLORER_ZONES` (`src/data
 
 `dist/` é um site estático. Qualquer host serve:
 
+- **GitHub Pages**: o workflow `.github/workflows/pages.yml` compila e publica a cada push na `main`. Em *Settings → Pages → Build and deployment → Source*, selecione **GitHub Actions**. O subcaminho (`/atlanta-hub`) e a URL pública são configurados automaticamente (`BASE_PATH` / `SITE_URL`). Para testar localmente com subcaminho: `BASE_PATH=/atlanta-hub npm run build && BASE_PATH=/atlanta-hub npm run preview` → `http://localhost:4173/atlanta-hub/`.
+
 - **Vercel**: build command `npm run build`, output `dist`.
 - **Netlify**: build `npm run build`, publish `dist`.
 - **Cloudflare Pages**: build `npm run build`, output `dist`.

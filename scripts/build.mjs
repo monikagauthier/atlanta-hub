@@ -47,7 +47,16 @@ writeFileSync(join(out, 'assets', jsName), js);
 
 // HTML
 const { renderPage, configWarnings } = await import(pathToFileURL(join(build, 'render.js')).href + `?t=${Date.now()}`);
-const html = renderPage({ css: `/assets/${cssName}`, js: `/assets/${jsName}` });
+// BASE_PATH: prefixo quando o site fica num subcaminho (ex.: GitHub Pages → "/atlanta-hub").
+// SITE_URL: URL pública usada se BRAND.SITE_URL estiver vazio em src/config.ts.
+const base = (process.env.BASE_PATH || '').replace(/\/+$/, '');
+const html = renderPage({
+  css: `${base}/assets/${cssName}`,
+  js: `${base}/assets/${jsName}`,
+  base,
+  siteUrl: process.env.SITE_URL || '',
+});
+if (base) console.log(`• BASE_PATH = ${base}`);
 writeFileSync(join(out, 'index.html'), html);
 
 // Public

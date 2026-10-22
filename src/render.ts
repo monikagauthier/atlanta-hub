@@ -14,14 +14,27 @@ export { configWarnings };
 export interface Assets {
   css: string;
   js: string;
+  /** Prefixo de caminho quando o site não fica na raiz do domínio. Ex.: "/atlanta-hub" (GitHub Pages). */
+  base?: string;
+  /** URL pública usada se BRAND.SITE_URL estiver vazio (o deploy do GitHub Pages informa automaticamente). */
+  siteUrl?: string;
 }
 
 const TITLE = 'ATLANTA HUB — Tudo para o digital. Em um só lugar.';
 const DESC =
   'Comunidade no Discord com conteúdos, ferramentas, métodos e recursos sobre inteligência artificial, marketing digital, automação, design e tecnologia, organizados por tema.';
 
+let BASE = '';
+let SITE = '';
+
+/** Caminho local respeitando o prefixo. */
+function local(path: string): string {
+  return BASE + path;
+}
+
+/** URL absoluta quando houver URL pública; senão, caminho local. */
 function abs(path: string): string {
-  return C.BRAND.SITE_URL ? C.BRAND.SITE_URL.replace(/\/$/, '') + path : path;
+  return SITE ? SITE + path : local(path);
 }
 
 function jsonLd(): string {
@@ -46,7 +59,10 @@ function jsonLd(): string {
 }
 
 export function renderPage(assets: Assets): string {
-  const canonical = C.BRAND.SITE_URL ? `<link rel="canonical" href="${esc(abs('/'))}">` : '';
+  BASE = (assets.base || '').replace(/\/+$/, '');
+  if (BASE && !BASE.startsWith('/')) BASE = '/' + BASE;
+  SITE = (C.BRAND.SITE_URL || assets.siteUrl || '').replace(/\/+$/, '');
+  const canonical = SITE ? `<link rel="canonical" href="${esc(abs('/'))}">` : '';
   return `<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -57,8 +73,8 @@ export function renderPage(assets: Assets): string {
 <meta name="theme-color" content="#080808">
 <meta name="color-scheme" content="dark">
 ${canonical}
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="${local('/favicon.svg')}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${local('/apple-touch-icon.png')}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="${C.BRAND.NAME}">
@@ -68,7 +84,7 @@ ${canonical}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="ATLANTA HUB — Tudo para o digital. Em um só lugar.">
-${C.BRAND.SITE_URL ? `<meta property="og:url" content="${esc(abs('/'))}">` : ''}
+${SITE ? `<meta property="og:url" content="${esc(abs('/'))}">` : ''}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${esc(DESC)}">
