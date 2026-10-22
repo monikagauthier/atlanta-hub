@@ -1,0 +1,74 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   ATLANTA HUB · DESIGN TOKENS
+   Paleta oficial + escalas derivadas. Vermelho = sinal, nunca ruído:
+   ~90% preto/superfícies · ~8% branco/cinza · ~2% vermelho.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Paleta oficial */
+  --black: #080808;
+  --black-2: #111111;
+  --surface: #171717;
+  --red: #ff1e24;
+  --red-hi: #ff383b;
+  --white: #f5f5f5;
+  --gray: #9ca3af;
+
+  /* Derivados (mesma família, sem novas matizes) */
+  --surface-2: #1c1c1c;
+  --surface-3: #232323;
+  --ink-dim: rgba(245, 245, 245, 0.62); /* texto secundário sobre preto: 9.6:1 */
+  --line: rgba(245, 245, 245, 0.075);
+  --line-2: rgba(245, 245, 245, 0.13);
+  --line-3: rgba(245, 245, 245, 0.22);
+  --red-08: rgba(255, 30, 36, 0.08);
+  --red-14: rgba(255, 30, 36, 0.14);
+  --red-24: rgba(255, 30, 36, 0.24);
+  --red-40: rgba(255, 30, 36, 0.4);
+  --red-60: rgba(255, 30, 36, 0.6);
+
+  /* Tipografia */
+  --f-display: 'Space Grotesk', 'Sora', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Escala fluida (≈ 1.25 no mobile → 1.333 no desktop) */
+  --fs-micro: 0.6875rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-lg: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4rem);
+  --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.625rem);
+  --fs-h2: clamp(2.125rem, 1.25rem + 3.4vw, 4.5rem);
+  --fs-display: clamp(2.875rem, 1.1rem + 6.6vw, 7.25rem);
+
+  /* Espaço */
+  --gutter: clamp(20px, 4.2vw, 56px);
+  --container: 1320px;
+  --section-y: clamp(96px, 11vw, 176px);
+  --header-h: 72px;
+
+  /* Forma */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 160ms;
+  --t-med: 320ms;
+  --t-slow: 720ms;
+
+  /* Profundidade */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  --shadow-float: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 30px 70px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px var(--line-2);
+}
+
+@media (min-width: 1680px) {
+  :root {
+    --container: 1440px;
+  }
+}
