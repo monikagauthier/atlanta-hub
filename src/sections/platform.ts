@@ -1,4 +1,5 @@
-import { icon, mark } from '../icons.js';
+import { icon } from '../icons.js';
+import { emblem, img } from '../img.js';
 import { EXPLORER_ZONES, SERVER_MAP } from '../data.js';
 import { SERVER_SCREENSHOTS } from '../config.js';
 import { esc } from '../lib.js';
@@ -35,7 +36,7 @@ function serverMock(): string {
   return `
   <div class="srv" data-srv data-active="categorias">
     <div class="srv__side">
-      <p class="srv__server">${mark(18)}<span>ATLANTA</span>${icon('chevronDown', 14)}</p>
+      <p class="srv__server">${emblem(20, 'srv__emblem')}<span>ATLANTA</span>${icon('chevronDown', 14)}</p>
       <div class="srv__groups">${groups}</div>
     </div>
     <div class="srv__main">
@@ -75,7 +76,7 @@ function gallery(): string {
   if (!SERVER_SCREENSHOTS.length) return '';
   return `
     <div class="shots">
-      <p class="eyebrow eyebrow--sm"><span>●</span>Capturas reais do servidor</p>
+      <h3 class="shots__h">Capturas reais do servidor</h3>
       <div class="shots__grid">
         ${SERVER_SCREENSHOTS.map(
           (s) => `<figure class="shot"><img src="${esc(s.src)}" alt="${esc(s.alt)}" width="${s.width}" height="${s.height}" loading="lazy" decoding="async"><figcaption>${esc(s.caption)}</figcaption></figure>`,
@@ -84,11 +85,26 @@ function gallery(): string {
     </div>`;
 }
 
+/** Mockups oficiais: o mesmo servidor no computador e no celular. */
+function devicesShowcase(): string {
+  return `
+    <div class="devs">
+      <div class="devs__copy" data-reveal>
+        <h3 class="devs__title">Do computador ao celular, <span class="t-red">o mesmo servidor.</span></h3>
+        <p class="devs__text">O Discord tem aplicativo para Windows, macOS, Linux, Android e iOS, além da versão no navegador. Os canais do ATLANTA acompanham você em qualquer tela.</p>
+      </div>
+      <figure class="devs__stage" data-reveal="scale" style="--d:1">
+        <div class="devs__monitor">${img('monitor-pt', { alt: 'Mockup do servidor ATLANTA aberto em um monitor', sizes: '(min-width: 1024px) 46vw, 88vw' })}</div>
+        <div class="devs__phone">${img('phone-channels', { alt: 'Mockup do servidor ATLANTA aberto em um smartphone', sizes: '(min-width: 1024px) 15vw, 34vw' })}</div>
+        <figcaption class="devs__cap">Mockups ilustrativos</figcaption>
+      </figure>
+    </div>`;
+}
+
 export function platform(): string {
   const tabs = EXPLORER_ZONES.map(
     (z, i) => `
       <button type="button" class="xtab${i === 0 ? ' is-on' : ''}" role="tab" id="xtab-${z.id}" aria-selected="${i === 0}" aria-controls="xpanel" tabindex="${i === 0 ? 0 : -1}" data-zone-tab="${z.id}">
-        <span class="xtab__n">0${i + 1}</span>
         <span class="xtab__body"><strong>${z.label}</strong><span class="xtab__text">${z.text}</span></span>
         <span class="xtab__bar" aria-hidden="true"></span>
       </button>`,
@@ -99,9 +115,8 @@ export function platform(): string {
   <div class="plat__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="shead shead--center">
-      <p class="eyebrow" data-reveal><span>03</span>Plataforma</p>
-      <h2 class="h2" id="plat-title" data-reveal style="--d:1">Sua central digital. <span class="t-red">Direto no Discord.</span></h2>
-      <p class="lead" data-reveal style="--d:2">Explore as camadas do servidor ATLANTA. Selecione um item para ver onde ele fica na interface.</p>
+      <h2 class="h2" id="plat-title" data-reveal>Sua central digital. <span class="t-red">Direto no Discord.</span></h2>
+      <p class="lead" data-reveal style="--d:1">Explore as camadas do servidor ATLANTA. Selecione um item para ver onde ele fica na interface.</p>
     </div>
 
     <div class="plat__layout">
@@ -111,6 +126,7 @@ export function platform(): string {
         <p class="plat__note">${icon('shield', 14)}Representação ilustrativa. Nomes de canais e organização podem variar no servidor real.</p>
       </div>
     </div>
+    ${devicesShowcase()}
     ${gallery()}
   </div>
 </section>`;

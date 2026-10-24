@@ -74,7 +74,12 @@ for (const width of WIDTHS) {
   if (ov.offenders.length) fail(r, `elementos além da viewport: ${ov.offenders.join(', ')}`);
 
   // 2. Imagens quebradas
-  const broken = await page.evaluate(() => [...document.images].filter((i) => !i.complete || i.naturalWidth === 0).map((i) => i.src));
+  // Força o carregamento das imagens lazy e espera decodificar: só falha de verdade conta.
+  const broken = await page.evaluate(async () => {
+    const imgs = [...document.images];
+    await Promise.all(imgs.map((i) => { i.loading = 'eager'; return i.decode().catch(() => {}); }));
+    return imgs.filter((i) => i.naturalWidth === 0).map((i) => i.currentSrc || i.src);
+  });
   if (broken.length) fail(r, `imagens quebradas: ${broken.join(', ')}`);
 
   // 3. Alvos de toque (mobile) — botões e links interativos visíveis

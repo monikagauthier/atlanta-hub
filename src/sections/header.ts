@@ -1,15 +1,15 @@
-import { icon, mark } from '../icons.js';
+import { icon } from '../icons.js';
 import { NAV } from '../data.js';
+import { brandLogo } from '../img.js';
 
-export function logo(size = 30): string {
-  return `<span class="logo">${mark(size, 'logo__mark')}<span class="logo__word">ATLANTA</span><span class="logo__tag">HUB</span></span>`;
+export function logo(height = 34): string {
+  return `<span class="logo" style="--logo-h:${height}px">${brandLogo(height)}</span>`;
 }
 
 export function header(): string {
   const links = NAV.map((n) => `<li><a href="${n.href}" data-nav>${n.label}</a></li>`).join('');
   const mlinks = NAV.map(
-    (n, i) =>
-      `<li style="--i:${i}"><a href="${n.href}" data-mnav><span class="mnav__n">0${i + 1}</span>${n.label}${icon('arrowRight', 20)}</a></li>`,
+    (n, i) => `<li style="--i:${i}"><a href="${n.href}" data-mnav>${n.label}${icon('arrowRight', 20)}</a></li>`,
   ).join('');
 
   return `

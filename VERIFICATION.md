@@ -1,13 +1,69 @@
 # Relatório de verificação — ATLANTA HUB
 
-Data: 22/10/2026 · Ambiente: sandbox Linux, Node 22, Chromium headless (Playwright).
+v1: 22/10/2026 · v2 (imagens oficiais + Impeccable): 24/10/2026 · Ambiente: sandbox Linux, Node 22, Chromium headless (Playwright).
+
+## v2: imagens oficiais e skill Impeccable
+
+### Uso da Impeccable (o que foi usado de fato)
+
+- A skill está instalada em `.kiro/skills/impeccable/` (na raiz do workspace, fora do repositório). Os guias `craft-floor`, `mode-persuade`, `polish` e `layout` foram lidos e aplicados manualmente.
+- O detector oficial (`impeccable detect`, binário 0.1.16 da release oficial) **foi executado** sobre `dist/index.html` e `src/styles`.
+  - **138** achados na primeira rodada, **42** na segunda e **36** no estado final.
+  - O download automático do launcher é bloqueado no sandbox, por isso o binário foi baixado via API do GitHub.
+- Corrigido a partir do detector:
+  - Texto < 11 px: 54 casos de `undersized-ui-text` → 0.
+  - Ícones em caixinha empilhados (`icon-tile-stack`): 37 → 0. Os ícones do catálogo e dos benefícios agora ficam em linha com o título.
+  - Brilhos vermelhos redundantes: 16 → 5.
+  - Opacidade baixa no rodapé removida.
+- Achados mantidos de propósito:
+  - `overused-font` (3): Space Grotesk, Inter e JetBrains Mono são exigência do briefing.
+  - `nested-cards` / `cramped-padding` / `low-contrast` (23, no total): quase todos estão no mockup interativo estilo Discord da seção Plataforma, que imita a interface real. Os 5 de baixo contraste são barras de esqueleto decorativas, sem texto legível.
+  - `dark-glow` (5): no CTA principal e na linha do passo a passo. É identidade da marca e foi limitado a esses pontos.
+  - `marquee` (1): é a faixa de categorias, que já existia. Ela para com `prefers-reduced-motion`.
+  - `tiny-text` (2, 11 px) e `wide-tracking` (1, 0,06em): etiquetas em caixa alta, não texto corrido.
+
+### Imagens oficiais (`imagenspag/`, `imagenspag2/`)
+
+- **Inventário:** 33 PNGs, sendo 25 imagens únicas (8 são duplicatas exatas por md5).
+- **Conversão:** as imagens foram convertidas para WebP responsivo em `public/img` por `scripts/assets.mjs`.
+  - A transparência original é preservada.
+  - Fundos claros sólidos foram removidos sem recortar o objeto.
+  - As proporções originais foram mantidas (`width`/`height` reais em cada `<img>`).
+- **Em uso (18):** a lista de onde cada imagem aparece está no README.
+- **Não usadas (7), com motivo:**
+  - `Moldura Futurista de Energia Vermelha`, `Interface Discord Neon Atlanta` e `Interface Atlanta em Neon Vermelho` têm o xadrez de "transparência" **gravado nos pixels** (PNG RGB, sem canal alfa). Usá-las mostraria o xadrez na página.
+  - `Atlanta Hub_ Discord futurista em neon vermelho` é um pôster quadrado opaco que repete a composição do hero (aparelhos + logo).
+  - `Caixa Cyberpunk de Edição Multimídia` (`box-media`) é composta quase só de logos de softwares comerciais de terceiros (Adobe, DaVinci, Figma etc.). Em destaque, isso poderia sugerir distribuição de software pago, contra o aviso "gratuitos ou devidamente licenciados". No `kit` do catálogo esses logos aparecem só como detalhe. Ela foi processada, mas não está na página.
+  - `Smartphone gamer com interface neon vermelha` (2 variantes diferentes, em `imagenspag/` e `imagenspag2/`; a primeira é a chave `phone-ui`) repete o celular com a lista de canais, que já aparece em Plataforma e em Como funciona.
+
+### Correções visuais da v2
+
+- Imagens dos pilares cortadas: grade `minmax(0,1fr)` e sem deslocamento.
+- Aparelho do hero vazando a coluna: ajustado.
+- Imagem do ingresso sobre a perfuração: reposicionada.
+- Imagens dos passos estourando o card: altura fixa de 176 px com `object-fit`.
+- Ícones duplicados nos passos removidos, já que a imagem oficial os substitui.
+- O visual do FAQ só aparece a partir de 1024 px.
+
+### Testes da v2 (todos executados nesta data)
+
+- `npm run typecheck` e `npm run build` passaram sem erros.
+- `scripts/qa.mjs` nas 6 larguras + reduced motion: **nenhum problema**.
+  - A checagem de imagens quebradas agora força o carregamento e o `decode()` de todas as imagens, inclusive as lazy.
+- `scripts/sections.mjs` gerou capturas por seção em 1440, 1024, 768 e 390 px, que foram inspecionadas.
+- Build com subcaminho (`BASE_PATH=/atlanta-hub`): as 44 referências de assets existem em `dist/`.
+- O preço continua **R$ 17,90** (`PRODUCT_PRICE = 17.9`). `CHECKOUT_URL` **não foi alterado** e continua vazio.
 
 ## Limitações do ambiente (declaradas, não contornadas)
 
-1. **Skill Impeccable não estava instalada** (nenhum diretório de skills encontrado) e a documentação oficial retornou 403. Ela **não foi usada**. Os princípios conhecidos (sem gradientes roxos/azuis, sem cards genéricos repetidos, sem emojis, escala tipográfica fluida, neutros controlados, cor de destaque escassa, movimento com propósito, contraste AA) foram aplicados manualmente. Para habilitar: na raiz do projeto, `npx impeccable install` e depois `/impeccable init` no Claude Code (ou `/plugin marketplace add pbakaus/impeccable`). Fonte: [README do Impeccable](https://github.com/pbakaus/impeccable/blob/main/README.md).
-2. **Sem acesso ao registro npm** (rede restrita). Next.js, React, Tailwind, Motion e Lucide não puderam ser instalados. A página foi construída em TypeScript puro, com componentes pré-renderizados, CSS próprio e animações nativas (CSS + Web Animations API). O resultado é HTML estático (bom para SEO e performance) e pode ser migrado para Next.js depois: cada `sections/*.ts` vira um componente.
-3. **Fontes do Google não carregam no sandbox.** As capturas usam a fonte reserva (Noto Sans). Em produção, Space Grotesk / Inter / JetBrains Mono carregam via Google Fonts com `display=swap`. A métrica final pode variar levemente; o layout foi conferido com a fonte reserva, que é mais larga.
-4. **Sem assets reais da marca nem capturas do servidor.** Logo, símbolo, ícones, mockups e OG foram criados do zero em SVG. Os mockups estão marcados como "Representação ilustrativa".
+1. **Impeccable na v1:** não estava instalada e não foi usada. Na v2 ela foi instalada e usada, conforme a seção acima.
+2. **Sem acesso ao registro npm** (rede restrita). Next.js, React, Tailwind, Motion e Lucide não puderam ser instalados.
+   - A página foi construída em TypeScript puro, com componentes pré-renderizados, CSS próprio e animações nativas (CSS + Web Animations API).
+   - O resultado é HTML estático (bom para SEO e performance) e pode ser migrado para Next.js depois: cada `sections/*.ts` vira um componente.
+3. **Fontes:**
+   - Space Grotesk é servida localmente (`public/fonts`, licença OFL).
+   - Inter e JetBrains Mono vêm do Google Fonts, que não carrega no sandbox. Nas capturas, essas duas usam a fonte reserva.
+4. **Assets:** a v1 usava SVGs próprios. A v2 usa as imagens oficiais enviadas, e os mockups continuam marcados como ilustrativos.
 
 ## Testes automatizados (`scripts/qa.mjs`) — todos executados e aprovados
 
@@ -32,7 +88,7 @@ Larguras: **375, 390, 768, 1024, 1440, 1920** + 390 com `prefers-reduced-motion`
 
 **Caminho configurado** (teste temporário com preço 97, preço "de" 147, checkout e 12 meses, depois revertido): preço exibido como "R$ 97,00", "De R$ 147,00" riscado, os 2 CTAs de compra apontam para o checkout, etiquetas administrativas somem com `ADMIN_HINTS=false`, o FAQ mostra a duração e o JSON-LD inclui `offers`.
 
-**Peso** (gzip): HTML 15 kB · CSS 12 kB · JS 3,5 kB. Nenhuma imagem raster no carregamento inicial, além de favicon e OG.
+**Peso v1** (gzip): HTML 15 kB · CSS 12 kB · JS 3,5 kB. Na v2 entram as imagens WebP oficiais: só o fundo e os aparelhos do hero carregam de início (`fetchpriority=high`), e as demais usam `loading="lazy"`.
 
 ## Revisão visual — problemas encontrados e corrigidos
 

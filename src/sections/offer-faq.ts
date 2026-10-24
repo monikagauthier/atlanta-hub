@@ -1,4 +1,5 @@
-import { icon, mark } from '../icons.js';
+import { icon } from '../icons.js';
+import { brandLogo, img } from '../img.js';
 import * as C from '../config.js';
 import { OFFER, checkoutAttrs, esc, formatPrice, hint } from '../lib.js';
 
@@ -28,14 +29,14 @@ export function offer(): string {
   <div class="offer__glow" aria-hidden="true"></div>
   <div class="container">
     <div class="shead shead--center">
-      <p class="eyebrow" data-reveal><span>06</span>Acesso</p>
-      <h2 class="h2" id="offer-title" data-reveal style="--d:1">Seu próximo passo no digital <span class="t-red">começa aqui.</span></h2>
-      <p class="lead" data-reveal style="--d:2">Tenha acesso ao ecossistema ATLANTA HUB e explore os recursos disponíveis na comunidade.</p>
+      <h2 class="h2" id="offer-title" data-reveal>Seu próximo passo no digital <span class="t-red">começa aqui.</span></h2>
+      <p class="lead" data-reveal style="--d:1">Tenha acesso ao ecossistema ATLANTA HUB e explore os recursos disponíveis na comunidade.</p>
     </div>
 
     <div class="ticket" data-reveal="scale" style="--d:2">
       <div class="ticket__main">
-        <p class="ticket__brand">${mark(26)}<span>ATLANTA <b>HUB</b></span></p>
+        <div class="ticket__visual">${img('pack', { alt: 'Pacote ATLANTA HUB: caixa, cartão de acesso e smartphone com o servidor', sizes: '(min-width: 900px) 280px, 72vw' })}</div>
+        <p class="ticket__brand">${brandLogo(30)}</p>
         <h3 class="ticket__title">Acesso à comunidade ATLANTA</h3>
         <p class="ticket__label">O que está incluído</p>
         <ul class="ticket__list">${incl}</ul>
@@ -87,7 +88,6 @@ export function faq(): string {
       <div class="qa" data-qa>
         <h3 class="qa__h">
           <button type="button" class="qa__q" id="qa-q${i}" aria-expanded="false" aria-controls="qa-a${i}">
-            <span class="qa__n">${String(i + 1).padStart(2, '0')}</span>
             <span class="qa__t">${q}</span>
             <span class="qa__ico" aria-hidden="true"></span>
           </button>
@@ -103,9 +103,9 @@ export function faq(): string {
 <section class="section faq" id="faq" aria-labelledby="faq-title">
   <div class="container faq__layout">
     <div class="faq__intro">
-      <p class="eyebrow" data-reveal><span>07</span>Dúvidas</p>
-      <h2 class="h2" id="faq-title" data-reveal style="--d:1">Perguntas <span class="t-dim">frequentes.</span></h2>
-      <p class="lead" data-reveal style="--d:2">Informações objetivas sobre acesso, plataforma e suporte.</p>
+      <h2 class="h2" id="faq-title" data-reveal>Perguntas <span class="t-dim">frequentes.</span></h2>
+      <p class="lead" data-reveal style="--d:1">Informações objetivas sobre acesso, plataforma e suporte.</p>
+      <figure class="faq__visual" data-reveal="scale" style="--d:2">${img('monitor-chat', { alt: 'Monitor com o canal de conversa do servidor ATLANTA', sizes: '(min-width: 1024px) 30vw, 1px' })}</figure>
     </div>
     <div class="qas" data-reveal style="--d:1">${items}</div>
   </div>

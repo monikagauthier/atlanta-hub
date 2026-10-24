@@ -7,19 +7,23 @@ Código em TypeScript, CSS próprio (design system em tokens) e **nenhuma depend
 src/
   config.ts            ← ÚNICO arquivo comercial a editar (preço, checkout, prazos, suporte, legal)
   data.ts              ← textos: categorias, filtros, pilares, benefícios, etapas, estrutura do mockup
-  icons.ts             ← 31 ícones de categoria + ícones de interface + símbolo ATLANTA (SVG próprio)
+  icons.ts             ← 31 ícones de categoria + ícones de interface (SVG)
+  img.ts               ← <img> responsivo (srcset/sizes), logo e emblema oficiais
+  assets.gen.ts        ← GERADO por scripts/assets.mjs (dimensões e arquivos de cada imagem)
   lib.ts               ← estado derivado da oferta, formatação de preço, avisos de configuração
   render.ts            ← documento HTML, SEO, Open Graph, JSON-LD
   sections/*.ts        ← um componente por seção (header, hero, ecossistema, catálogo, plataforma…)
   client/main.ts       ← interações: menu, filtros FLIP, abas, FAQ, revelação, parallax, checkout
   styles/01…07-*.css   ← tokens → base → componentes → seções
-public/                ← favicon, logo.svg, og.png, apple-touch-icon.png, robots.txt
+public/                ← img/ (WebP gerados), fonts/ (Space Grotesk, OFL), favicons, og.png, robots.txt
+imagenspag/, imagenspag2/ ← imagens oficiais originais (PNG) — fonte do pipeline
 scripts/
   build.mjs            ← pré-renderiza, minifica CSS, gera nomes com hash → dist/
   serve.mjs            ← servidor local de pré-visualização
   qa.mjs               ← QA automatizado em 6 larguras (Playwright)
   sections.mjs         ← capturas por seção para revisão visual
-  og.mjs               ← gera og.png e apple-touch-icon.png
+  assets.mjs           ← converte as imagens oficiais em WebP (recorte, fundo, várias larguras)
+  og.mjs               ← gera og.png, apple-touch-icon.png e favicon.png a partir dos assets oficiais
 ```
 
 ## Rodar
@@ -54,6 +58,38 @@ O build lista no terminal tudo o que ainda falta configurar.
 Com preço **e** checkout preenchidos, o JSON-LD `Product` passa a incluir `offers`.
 
 Os nomes de canais do mockup ficam em `SERVER_MAP` e `EXPLORER_ZONES` (`src/data.ts`) — troque pelos nomes reais do servidor.
+
+## Imagens oficiais
+
+As imagens de `imagenspag/` e `imagenspag2/` são processadas por `scripts/assets.mjs` (Chromium headless, mesmas variáveis do QA):
+
+```bash
+CHROME_PATH=… PLAYWRIGHT_CORE=… node scripts/assets.mjs          # todas
+CHROME_PATH=… PLAYWRIGHT_CORE=… node scripts/assets.mjs devices  # só uma chave
+```
+
+O script recorta bordas transparentes, remove fundos claros embutidos (modo `flood`), gera WebP em 2–3 larguras em `public/img/<chave>-<w>.webp` e reescreve `src/assets.gen.ts`. Proporções e transparência são preservadas. Para trocar uma imagem: substitua o PNG de origem (mesmo nome) e rode o script. Os WebP gerados são versionados, então o deploy não depende do Chromium.
+
+Onde cada imagem aparece:
+
+| Chave | Origem | Seção |
+|---|---|---|
+| `hero-bg` | `imagenspag/hero.png` | Fundo do hero e da chamada final |
+| `devices` | Dispositivos futuristas com interface Atlanta | Hero (mockup principal) |
+| `logo` | Logo futurista ATLANTA HUB | Cabeçalho, rodapé, ingresso da oferta |
+| `emblem` | Emblema A Metálico Vermelho | Plataforma, chamada final |
+| `box-ia` / `box-marketing` / `box-tools` / `panel-channels` | Caixas de IA, Marketing, Ferramentas; Painel de Canais | Ecossistema (4 pilares) |
+| `kit` | Kit Cyber-Tech Atlanta Hub | Catálogo (topo) |
+| `box-atlanta` | Caixa futurista ATLANTA HUB | Catálogo (card de CTA) |
+| `monitor-pt` / `phone-channels` | Monitor em português; Smartphone com Discord Atlanta | Plataforma |
+| `cards` / `phone-logo` / `library` | Cartões em metal; Smartphone com Discord neon; Biblioteca de Arquivos | Como funciona (passos 1–3) |
+| `setup` | Setup Gamer Futurista | Por que o Atlanta |
+| `pack` | Pacote Tech Cyberpunk | Oferta (ingresso) |
+| `monitor-chat` | Monitor Discord Atlanta | FAQ (≥ 1024 px) |
+
+`box-media` e `phone-ui` são geradas, mas não usadas. Outras 5 imagens de origem (incluindo uma segunda variante do celular) ficaram de fora porque têm o xadrez gravado nos pixels ou repetem conteúdo já usado. Os motivos estão em `VERIFICATION.md`.
+
+A fonte Space Grotesk é servida localmente (`public/fonts/`, licença OFL); Inter e JetBrains Mono vêm do Google Fonts.
 
 ## Publicar
 

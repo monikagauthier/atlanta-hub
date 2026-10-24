@@ -3,6 +3,15 @@
    Paleta oficial + escalas derivadas. Vermelho = sinal, nunca ruído:
    ~90% preto/superfícies · ~8% branco/cinza · ~2% vermelho.
    ═══════════════════════════════════════════════════════════════════════ */
+/* Space Grotesk auto-hospedada (OFL) — a voz display não depende de CDN. */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/SpaceGrotesk-Variable.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Paleta oficial */
   --black: #080808;
@@ -12,6 +21,9 @@
   --red-hi: #ff383b;
   --white: #f5f5f5;
   --gray: #9ca3af;
+  /* Branco metálico e grafite (derivados dos mockups oficiais) */
+  --chrome: #d9dbe0;
+  --graphite: #2a2b2f;
 
   /* Derivados (mesma família, sem novas matizes) */
   --surface-2: #1c1c1c;
@@ -39,8 +51,8 @@
   --fs-md: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
   --fs-lg: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4rem);
   --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.625rem);
-  --fs-h2: clamp(2.125rem, 1.25rem + 3.4vw, 4.5rem);
-  --fs-display: clamp(2.875rem, 1.1rem + 6.6vw, 7.25rem);
+  --fs-h2: clamp(2.125rem, 1.25rem + 3.2vw, 4.25rem);
+  --fs-display: clamp(2.875rem, 1.1rem + 6.6vw, 6rem);
 
   /* Espaço */
   --gutter: clamp(20px, 4.2vw, 56px);

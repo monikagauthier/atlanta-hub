@@ -71,8 +71,3 @@ export function icon(name: string, size = 20, cls = 'ico'): string {
   if (!body) throw new Error(`Ícone inexistente: ${name}`);
   return `<svg class="${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${body}</svg>`;
 }
-
-/** Símbolo ATLANTA: um "A" cuja barra é um nó central — o hub. */
-export function mark(size = 32, cls = 'mark'): string {
-  return `<svg class="${cls}" width="${size}" height="${size}" viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false"><path d="M5.5 35 20 5.5 34.5 35" stroke="currentColor" stroke-width="3.6" stroke-linejoin="miter" stroke-miterlimit="10"/><path d="M11.4 25h17.2" stroke="#FF1E24" stroke-width="3.6"/><circle cx="20" cy="25" r="3.9" fill="#080808" stroke="#FF1E24" stroke-width="2.6"/></svg>`;
-}
