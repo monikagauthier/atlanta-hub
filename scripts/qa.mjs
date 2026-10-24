@@ -1,5 +1,5 @@
 // QA automatizado: overflow horizontal, imagens quebradas, erros de console,
-// alvos de toque, filtros, FAQ, menu, abas e CTA de checkout — em 6 larguras.
+// alvos de toque, seção Conteúdos, FAQ, menu, abas e CTA de checkout — em 6 larguras.
 // Requer playwright-core. Uso:
 //   QA_URL=http://localhost:4173 CHROME_PATH=/caminho/chrome PLAYWRIGHT_CORE=/caminho/playwright-core node scripts/qa.mjs
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -8,6 +8,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { startServer } from './serve.mjs';
+import { useLocalFont } from './local-font.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
@@ -43,6 +44,7 @@ async function scrollThrough(page) {
 for (const width of WIDTHS) {
   const height = width < 768 ? 812 : width < 1440 ? 900 : 1000;
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, hasTouch: width < 1024 });
+  await useLocalFont(ctx);
   const page = await ctx.newPage();
   const r = { width, issues: [], checks: [] };
   const consoleErrors = [];
@@ -63,7 +65,7 @@ for (const width of WIDTHS) {
     const offenders = [];
     for (const el of document.querySelectorAll('body *')) {
       const s = getComputedStyle(el);
-      if (s.position === 'fixed' || el.closest('[aria-hidden="true"], .ticker, .filters, .mnav, .final__word')) continue;
+      if (s.position === 'fixed' || el.closest('[aria-hidden="true"], .ticker, .mnav')) continue;
       const b = el.getBoundingClientRect();
       if (b.width && (b.right > vw + 1 || b.left < -1)) offenders.push(`${el.tagName.toLowerCase()}.${[...el.classList].join('.')} (${Math.round(b.left)}→${Math.round(b.right)})`);
     }
@@ -85,7 +87,7 @@ for (const width of WIDTHS) {
   // 3. Alvos de toque (mobile) — botões e links interativos visíveis
   if (width < 768) {
     const small = await page.evaluate(() =>
-      [...document.querySelectorAll('a.btn, button, .hdr__burger, .filter')]
+      [...document.querySelectorAll('a.btn, button, .hdr__burger')]
         .filter((e) => e.offsetParent !== null)
         .map((e) => ({ t: (e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 30), h: e.getBoundingClientRect().height }))
         .filter((x) => x.h < 40),
@@ -100,34 +102,26 @@ for (const width of WIDTHS) {
   );
   if (deadAnchors.length) fail(r, `âncoras sem destino: ${[...new Set(deadAnchors)].join(', ')}`);
 
-  // 5. Filtros do catálogo
-  const expected = await page.evaluate(() => {
-    const out = {};
-    document.querySelectorAll('[data-filter]').forEach((b) => {
-      const f = b.dataset.filter;
-      out[f] = f === 'todos' ? document.querySelectorAll('.tile').length : document.querySelectorAll(`.tile[data-groups~="${f}"]`).length;
-    });
-    return out;
+  // 5. Seção "Dentro do Atlanta": mockup oficial carregado, centralizado e sem grade de cards
+  const cat = await page.evaluate(async () => {
+    const sec = document.querySelector('#conteudos');
+    const im = sec.querySelector('.cat__img');
+    im.loading = 'eager';
+    await im.decode().catch(() => {});
+    const r = im.getBoundingClientRect();
+    return {
+      loaded: im.naturalWidth > 0,
+      ratio: Math.abs(r.width / r.height - im.naturalWidth / im.naturalHeight),
+      offCenter: Math.abs(r.left + r.width / 2 - document.documentElement.clientWidth / 2),
+      share: r.width / document.documentElement.clientWidth,
+      leftovers: sec.querySelectorAll('.tile, [data-filter], .filters').length,
+    };
   });
-  for (const [f, n] of Object.entries(expected)) {
-    await page.click(`[data-filter="${f}"]`);
-    await page.waitForTimeout(80);
-    const st = await page.evaluate(() => ({
-      count: Number(document.querySelector('[data-cat-count]').textContent),
-      visible: [...document.querySelectorAll('.tile')].filter((t) => !t.hidden).length,
-      more: !document.querySelector('[data-cat-more]').hidden,
-      pressed: document.querySelector('[data-filter][aria-pressed="true"]').dataset.filter,
-    }));
-    if (st.count !== n || st.pressed !== f) fail(r, `filtro ${f}: contador ${st.count}, esperado ${n}`);
-    if (!st.more && st.visible !== n) fail(r, `filtro ${f}: ${st.visible} visíveis, esperado ${n}`);
-    if (st.more) {
-      await page.click('[data-cat-more]');
-      const v = await page.evaluate(() => [...document.querySelectorAll('.tile')].filter((t) => !t.hidden).length);
-      if (v !== n) fail(r, `filtro ${f} expandido: ${v} visíveis, esperado ${n}`);
-    }
-  }
-  r.checks.push(`filtros ok (${Object.keys(expected).length})`);
-  await page.click('[data-filter="todos"]');
+  if (!cat.loaded) fail(r, 'mockup da seção Conteúdos não carregou');
+  if (cat.ratio > 0.01) fail(r, `mockup distorcido (Δ proporção ${cat.ratio.toFixed(3)})`);
+  if (cat.offCenter > 2) fail(r, `mockup fora do centro (${cat.offCenter.toFixed(1)}px)`);
+  if (cat.leftovers) fail(r, `restos da grade/filtros: ${cat.leftovers}`);
+  r.checks.push(`conteúdos: mockup ok (${Math.round(cat.share * 100)}% da largura)`);
 
   // 6. FAQ: abre e fecha, um por vez
   await page.locator('.qa__q').nth(0).click();
@@ -182,6 +176,7 @@ for (const width of WIDTHS) {
 // Reduced motion: todo conteúdo visível sem rolar
 {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 812 }, reducedMotion: 'reduce' });
+  await useLocalFont(ctx);
   const page = await ctx.newPage();
   await page.goto(URL, { waitUntil: 'load' });
   const hiddenCount = await page.evaluate(() => [...document.querySelectorAll('[data-reveal]')].filter((e) => getComputedStyle(e).opacity !== '1').length);

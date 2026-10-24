@@ -3,7 +3,7 @@ import { CATEGORIES } from '../data.js';
 import { img } from '../img.js';
 
 export function hero(): string {
-  const ticker = CATEGORIES.map((c) => `<span>${c.name}</span>`).join('<i aria-hidden="true">/</i>');
+  const ticker = CATEGORIES.map((c) => `<span>${c.name}</span>`).join('<i aria-hidden="true">·</i>');
   return `
 <section class="hero" id="inicio" aria-labelledby="hero-title">
   <div class="hero__bg" aria-hidden="true">
@@ -13,14 +13,12 @@ export function hero(): string {
 
   <div class="container hero__layout">
     <div class="hero__copy">
-      <h1 class="hero__title" id="hero-title" data-reveal>
-        <span class="hero__line">O universo</span>
-        <span class="hero__line">digital</span>
-        <span class="hero__line hero__line--red">em um só</span>
-        <span class="hero__line hero__line--red">lugar.</span>
+      <p class="hero__tag" data-reveal><span class="dot" aria-hidden="true"></span>Um hub. Inúmeras possibilidades.</p>
+      <h1 class="hero__title" id="hero-title" data-reveal style="--d:1">
+        <span class="hero__line">O universo digital</span>
+        <span class="hero__line hero__line--soft">em um só lugar.</span>
       </h1>
-      <p class="hero__sub" data-reveal style="--d:1">Explore um ecossistema de conteúdos, ferramentas, métodos e recursos sobre inteligência artificial, marketing digital, automação, design, tecnologia e muito mais.</p>
-      <p class="hero__tag" data-reveal style="--d:2"><span class="hero__tag-bar"></span>Um hub. Inúmeras possibilidades.</p>
+      <p class="hero__sub" data-reveal style="--d:2">Explore um ecossistema de conteúdos, ferramentas, métodos e recursos sobre inteligência artificial, marketing digital, automação, design, tecnologia e muito mais.</p>
       <div class="hero__ctas" data-reveal style="--d:3">
         <a class="btn btn--primary btn--lg" href="#acesso">Quero entrar no Atlanta<span class="btn__ico">${icon('arrowRight', 18)}</span></a>
         <a class="btn btn--ghost btn--lg" href="#conteudos">Explorar conteúdos</a>
@@ -51,7 +49,7 @@ export function hero(): string {
   </div>
 
   <div class="ticker" aria-hidden="true">
-    <div class="ticker__track"><div class="ticker__row">${ticker}<i>/</i></div><div class="ticker__row">${ticker}<i>/</i></div></div>
+    <div class="ticker__track"><div class="ticker__row">${ticker}<i>·</i></div><div class="ticker__row">${ticker}<i>·</i></div></div>
   </div>
 </section>`;
 }

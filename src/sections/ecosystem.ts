@@ -33,11 +33,11 @@ export function ecosystem(): string {
 <section class="section eco" id="ecossistema" aria-labelledby="eco-title">
   <div class="container">
     <div class="shead shead--split">
-      <h2 class="h2" id="eco-title" data-reveal>Não é apenas uma comunidade. <span class="t-dim">É um ecossistema digital.</span></h2>
+      <h2 class="h2" id="eco-title" data-reveal>Não é apenas uma comunidade. <span class="t-soft">É um ecossistema digital.</span></h2>
       <p class="lead" data-reveal style="--d:1">Quatro pilares conectados no mesmo servidor. Você não precisa saltar entre grupos, pastas e links: tudo é organizado por tema, dentro do ATLANTA.</p>
     </div>
     <div class="pillars">${cards}</div>
-    <a class="eco__more" href="#conteudos" data-reveal>Ver todas as categorias ${icon('arrowRight', 16)}</a>
+    <a class="eco__more" href="#conteudos" data-reveal>Ver o que existe dentro ${icon('arrowRight', 16)}</a>
   </div>
 </section>`;
 }

@@ -9,7 +9,6 @@ function $$<T extends HTMLElement = HTMLElement>(s: string, r: ParentNode = docu
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-const mobile = window.matchMedia('(max-width: 639px)');
 
 /* ── Header: estado ao rolar + link ativo ─────────────────────────────── */
 function initHeader(): void {
@@ -171,102 +170,6 @@ function initTilt(): void {
   });
 }
 
-/* ── Catálogo: filtros com transição FLIP + recolhimento no mobile ────── */
-function initCatalog(): void {
-  const grid = $('[data-tiles]');
-  if (!grid) return;
-  const tiles = $$('.tile', grid);
-  const buttons = $$<HTMLButtonElement>('[data-filter]');
-  const count = $('[data-cat-count]');
-  const more = $<HTMLButtonElement>('[data-cat-more]');
-  const LIMIT = 8;
-  let filter = 'todos';
-  let expanded = false;
-
-  const cta = $('[data-tile-cta]', grid);
-  /** O card de chamada ocupa exatamente as células livres da última linha. */
-  const fitCta = () => {
-    if (!cta) return;
-    const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
-    const visible = tiles.filter((t) => !t.hidden).length;
-    const rem = visible % cols;
-    const span = rem === 0 ? cols : cols - rem;
-    cta.dataset.span = String(span);
-    cta.style.setProperty('--span', String(span));
-    cta.classList.toggle('is-narrow', span < 2 || (cols > 2 && span < 3));
-  };
-  let rt = 0;
-  window.addEventListener('resize', () => {
-    window.clearTimeout(rt);
-    rt = window.setTimeout(fitCta, 120);
-  });
-
-  const apply = (animate: boolean) => {
-    const first = new Map<HTMLElement, DOMRect>();
-    if (animate) tiles.forEach((t) => !t.hidden && first.set(t, t.getBoundingClientRect()));
-
-    const matches = tiles.filter((t) => filter === 'todos' || (t.dataset.groups || '').split(' ').includes(filter));
-    const collapse = mobile.matches && !expanded && matches.length > LIMIT;
-    tiles.forEach((t) => {
-      const idx = matches.indexOf(t);
-      t.hidden = idx === -1 || (collapse && idx >= LIMIT);
-    });
-    if (count) count.textContent = String(matches.length);
-    if (cta) cta.hidden = collapse;
-    fitCta();
-    if (more) {
-      more.hidden = !collapse;
-      more.firstChild!.textContent = `Mostrar todas as ${matches.length} categorias `;
-    }
-
-    if (!animate || reduced.matches) return;
-    tiles.forEach((t) => {
-      if (t.hidden) return;
-      const last = t.getBoundingClientRect();
-      const f = first.get(t);
-      if (f) {
-        const dx = f.left - last.left;
-        const dy = f.top - last.top;
-        if (dx || dy) {
-          t.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], {
-            duration: 520,
-            easing: 'cubic-bezier(.16,1,.3,1)',
-          });
-        }
-      } else {
-        t.animate(
-          [
-            { opacity: 0, transform: 'translateY(12px) scale(.97)' },
-            { opacity: 1, transform: 'none' },
-          ],
-          { duration: 420, delay: 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' },
-        );
-      }
-    });
-  };
-
-  buttons.forEach((b) =>
-    b.addEventListener('click', () => {
-      if (b.dataset.filter === filter) return;
-      filter = b.dataset.filter || 'todos';
-      expanded = false;
-      buttons.forEach((x) => {
-        const on = x === b;
-        x.classList.toggle('is-on', on);
-        x.setAttribute('aria-pressed', String(on));
-      });
-      b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced.matches ? 'auto' : 'smooth' });
-      apply(true);
-    }),
-  );
-  more?.addEventListener('click', () => {
-    expanded = true;
-    apply(true);
-  });
-  mobile.addEventListener('change', () => apply(false));
-  apply(false);
-}
-
 /* ── Explorador do servidor (tabs) ────────────────────────────────────── */
 function initExplorer(): void {
   const srv = $('[data-srv]');
@@ -351,7 +254,6 @@ function init(): void {
   initReveal();
   initSpotlight();
   initTilt();
-  initCatalog();
   initExplorer();
   initFaq();
   initCheckout();

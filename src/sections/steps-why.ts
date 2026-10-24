@@ -26,7 +26,7 @@ export function steps(): string {
 <section class="section how" id="como-funciona" aria-labelledby="how-title">
   <div class="container">
     <div class="shead shead--split">
-      <h2 class="h2" id="how-title" data-reveal>Simples de entrar. <span class="t-dim">Fácil de explorar.</span></h2>
+      <h2 class="h2" id="how-title" data-reveal>Simples de entrar. <span class="t-soft">Fácil de explorar.</span></h2>
       <p class="lead" data-reveal style="--d:1">Três etapas entre você e o servidor. As instruções de acesso são enviadas após a confirmação da compra.</p>
     </div>
     <div class="timeline" data-timeline>
@@ -51,7 +51,7 @@ export function why(): string {
 <section class="section why" id="por-que" aria-labelledby="why-title">
   <div class="container why__layout">
     <div class="why__intro">
-      <h2 class="h2" id="why-title" data-reveal>Menos tempo procurando. <span class="t-red">Mais tempo explorando.</span></h2>
+      <h2 class="h2" id="why-title" data-reveal>Menos tempo procurando. <span class="t-soft">Mais tempo explorando.</span></h2>
       <p class="lead" data-reveal style="--d:1">O ATLANTA reúne o que normalmente fica espalhado em dezenas de lugares e organiza tudo por assunto, em um ambiente que você já sabe usar.</p>
       <figure class="why__visual" data-reveal="scale" style="--d:2">
         ${img('setup', { alt: 'Mockup do servidor ATLANTA em monitor, notebook e smartphone', sizes: '(min-width: 1024px) 38vw, 92vw' })}

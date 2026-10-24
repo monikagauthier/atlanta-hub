@@ -5,7 +5,7 @@
     "checks": [
       "scrollWidth 375 / viewport 375",
       "alvos de toque ≥ 40px",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (94% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido",
@@ -18,7 +18,7 @@
     "checks": [
       "scrollWidth 390 / viewport 390",
       "alvos de toque ≥ 40px",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (94% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido",
@@ -30,7 +30,7 @@
     "issues": [],
     "checks": [
       "scrollWidth 768 / viewport 768",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (92% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido",
@@ -42,7 +42,7 @@
     "issues": [],
     "checks": [
       "scrollWidth 1024 / viewport 1024",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (92% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido"
@@ -53,7 +53,7 @@
     "issues": [],
     "checks": [
       "scrollWidth 1440 / viewport 1440",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (72% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido"
@@ -64,7 +64,7 @@
     "issues": [],
     "checks": [
       "scrollWidth 1920 / viewport 1920",
-      "filtros ok (7)",
+      "conteúdos: mockup ok (54% da largura)",
       "FAQ acordeão ok",
       "abas da plataforma ok (5)",
       "checkout ausente → aviso exibido"

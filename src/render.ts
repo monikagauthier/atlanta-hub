@@ -74,7 +74,7 @@ export function renderPage(assets: Assets): string {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${TITLE}</title>
 <meta name="description" content="${esc(DESC)}">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#0e1014">
 <meta name="color-scheme" content="dark">
 ${canonical}
 <link rel="icon" href="${local('/favicon.png')}" type="image/png" sizes="64x64">
@@ -94,12 +94,11 @@ ${SITE ? `<meta property="og:url" content="${esc(abs('/'))}">` : ''}
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${esc(DESC)}">
 <meta name="twitter:image" content="${esc(abs('/og.png'))}">
-<link rel="preload" href="${local('/fonts/SpaceGrotesk-Variable.ttf')}" as="font" type="font/ttf" crossorigin>
 <link rel="preload" as="image" href="${heroImg.href}" imagesrcset="${heroImg.srcset}" imagesizes="(min-width: 1024px) 52vw, 100vw" fetchpriority="high">
 <link rel="preload" as="image" href="${heroBg.href}" imagesrcset="${heroBg.srcset}" imagesizes="100vw">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap">
 <link rel="stylesheet" href="${assets.css}">
 <script>document.documentElement.classList.add('js')</script>
 <script src="${assets.js}" defer></script>

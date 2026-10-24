@@ -2,16 +2,6 @@
 
 export type GroupId = 'marketing' | 'ia' | 'ferramentas' | 'tecnologia' | 'design' | 'negocios';
 
-export const GROUPS: { id: GroupId | 'todos'; label: string }[] = [
-  { id: 'todos', label: 'Todos' },
-  { id: 'marketing', label: 'Marketing' },
-  { id: 'ia', label: 'Inteligência Artificial' },
-  { id: 'ferramentas', label: 'Ferramentas' },
-  { id: 'tecnologia', label: 'Tecnologia' },
-  { id: 'design', label: 'Design' },
-  { id: 'negocios', label: 'Negócios' },
-];
-
 export interface Category {
   name: string;
   icon: string;

@@ -32,7 +32,7 @@ export interface ServerScreenshot {
 export const BRAND = {
   NAME: 'ATLANTA HUB',
   COMMUNITY: 'ATLANTA',
-  SLOGAN: 'TUDO PARA O DIGITAL. EM UM SÓ LUGAR.',
+  SLOGAN: 'Tudo para o digital. Em um só lugar.',
   /** URL pública final, sem barra no fim. Ex.: "https://atlantahub.com.br". Usada em SEO/Open Graph. */
   SITE_URL: '',
 };

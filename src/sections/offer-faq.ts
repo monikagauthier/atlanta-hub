@@ -29,7 +29,7 @@ export function offer(): string {
   <div class="offer__glow" aria-hidden="true"></div>
   <div class="container">
     <div class="shead shead--center">
-      <h2 class="h2" id="offer-title" data-reveal>Seu próximo passo no digital <span class="t-red">começa aqui.</span></h2>
+      <h2 class="h2" id="offer-title" data-reveal>Seu próximo passo no digital <span class="t-soft">começa aqui.</span></h2>
       <p class="lead" data-reveal style="--d:1">Tenha acesso ao ecossistema ATLANTA HUB e explore os recursos disponíveis na comunidade.</p>
     </div>
 
@@ -73,7 +73,7 @@ function faqItems(): [string, string][] {
     ['O que é o ATLANTA HUB?', 'É uma comunidade digital no Discord que reúne conteúdos, ferramentas, métodos e recursos sobre inteligência artificial, marketing digital, design, tecnologia e negócios, organizados em categorias e canais temáticos.'],
     ['Como recebo meu acesso?', esc(delivery)],
     ['Preciso ter Discord?', 'Sim. Todo o acesso acontece dentro do Discord, que é gratuito. Se ainda não tiver uma conta, você pode criá-la em <a href="https://discord.com" rel="noopener" target="_blank">discord.com</a>.'],
-    ['Quais assuntos encontro na comunidade?', 'Inteligência artificial, prompts, marketing digital, copywriting, tráfego pago, design, edição, planilhas, materiais editáveis, tecnologia, negócios digitais e outras áreas listadas no <a href="#conteudos">catálogo</a>. A disponibilidade de materiais específicos pode variar.'],
+    ['Quais assuntos encontro na comunidade?', 'Inteligência artificial, prompts, marketing digital, copywriting, tráfego pago, design, edição, planilhas, materiais editáveis, tecnologia, negócios digitais e outras áreas apresentadas em <a href="#conteudos">Conteúdos</a>. A disponibilidade de materiais específicos pode variar.'],
     ['Posso acessar pelo celular?', 'Sim. O Discord tem aplicativos para Android e iOS, além das versões para computador e navegador.'],
     ['O acesso possui prazo?', duration],
     ['Os conteúdos são atualizados?', esc(updates)],
@@ -103,7 +103,7 @@ export function faq(): string {
 <section class="section faq" id="faq" aria-labelledby="faq-title">
   <div class="container faq__layout">
     <div class="faq__intro">
-      <h2 class="h2" id="faq-title" data-reveal>Perguntas <span class="t-dim">frequentes.</span></h2>
+      <h2 class="h2" id="faq-title" data-reveal>Perguntas <span class="t-soft">frequentes.</span></h2>
       <p class="lead" data-reveal style="--d:1">Informações objetivas sobre acesso, plataforma e suporte.</p>
       <figure class="faq__visual" data-reveal="scale" style="--d:2">${img('monitor-chat', { alt: 'Monitor com o canal de conversa do servidor ATLANTA', sizes: '(min-width: 1024px) 30vw, 1px' })}</figure>
     </div>

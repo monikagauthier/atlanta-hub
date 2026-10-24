@@ -90,7 +90,7 @@ function devicesShowcase(): string {
   return `
     <div class="devs">
       <div class="devs__copy" data-reveal>
-        <h3 class="devs__title">Do computador ao celular, <span class="t-red">o mesmo servidor.</span></h3>
+        <h3 class="devs__title">Do computador ao celular, <span class="t-soft">o mesmo servidor.</span></h3>
         <p class="devs__text">O Discord tem aplicativo para Windows, macOS, Linux, Android e iOS, além da versão no navegador. Os canais do ATLANTA acompanham você em qualquer tela.</p>
       </div>
       <figure class="devs__stage" data-reveal="scale" style="--d:1">
@@ -115,7 +115,7 @@ export function platform(): string {
   <div class="plat__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="shead shead--center">
-      <h2 class="h2" id="plat-title" data-reveal>Sua central digital. <span class="t-red">Direto no Discord.</span></h2>
+      <h2 class="h2" id="plat-title" data-reveal>Sua central digital. <span class="t-soft">Direto no Discord.</span></h2>
       <p class="lead" data-reveal style="--d:1">Explore as camadas do servidor ATLANTA. Selecione um item para ver onde ele fica na interface.</p>
     </div>
 

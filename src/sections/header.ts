@@ -27,7 +27,6 @@ export function header(): string {
   </div>
 </header>
 <div class="mnav" id="mnav" data-mnav-panel hidden>
-  <div class="mnav__glow" aria-hidden="true"></div>
   <nav class="container mnav__in" aria-label="Menu móvel">
     <ul class="mnav__list">${mlinks}</ul>
     <a class="btn btn--primary btn--lg btn--block" href="#acesso" data-mnav>Quero acessar ${icon('arrowRight', 18)}</a>
