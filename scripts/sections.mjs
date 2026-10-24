@@ -25,6 +25,8 @@ for (const w of widths.length ? widths : [1440, 390]) {
     }
   });
   await page.waitForTimeout(1500);
+  // Header fixo e skip link poluem capturas por elemento.
+  await page.addStyleTag({ content: '.hdr,.skip{visibility:hidden!important}' });
   for (const s of sel) {
     const el = await page.$(s);
     await el.screenshot({ path: join(out, `${w}-${s.replace(/[#.]/g, '')}.png`) });

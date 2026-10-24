@@ -40,7 +40,7 @@ export const BRAND = {
 /* ─── Oferta ─────────────────────────────────────────────────────────────── */
 
 /** Preço de venda em reais. Ex.: 97 ou 49.9. `null` = ainda não definido. */
-export const PRODUCT_PRICE: number | null = null;
+export const PRODUCT_PRICE: number | null = 17.9;
 
 /** Preço "de" (riscado). Só aparece se for MAIOR que PRODUCT_PRICE. Use apenas se for real. */
 export const ORIGINAL_PRICE: number | null = null;

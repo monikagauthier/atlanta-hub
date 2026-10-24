@@ -1,4 +1,5 @@
-import { icon, mark } from '../icons.js';
+import { icon } from '../icons.js';
+import { emblem, img } from '../img.js';
 import * as C from '../config.js';
 import { NAV } from '../data.js';
 import { OFFER, checkoutAttrs, esc, hint } from '../lib.js';
@@ -8,16 +9,15 @@ export function finalCta(): string {
   return `
 <section class="final" aria-labelledby="final-title">
   <div class="final__bg" aria-hidden="true">
-    <div class="final__horizon"></div>
-    <div class="final__grid"></div>
+    ${img('hero-bg', { alt: '', decorative: true, sizes: '100vw', cls: 'final__stage' })}
+    <div class="final__shade"></div>
   </div>
   <div class="container final__in">
-    <span class="final__mark" data-reveal="scale">${mark(64)}</span>
+    <span class="final__mark" data-reveal="scale">${emblem(96)}</span>
     <h2 class="final__title" id="final-title" data-reveal style="--d:1">O digital não para.<br><span class="t-red">Evolua com o Atlanta.</span></h2>
     <p class="final__text" data-reveal style="--d:2">Conheça a comunidade que reúne diferentes áreas do universo digital em um único ambiente.</p>
     <div data-reveal style="--d:3"><a class="btn btn--primary btn--xl btn--glow" ${checkoutAttrs('offer')}>Entrar no Atlanta Hub<span class="btn__ico">${icon('arrowRight', 20)}</span></a></div>
   </div>
-  <p class="final__word" aria-hidden="true">ATLANTA</p>
 </section>`;
 }
 
@@ -42,7 +42,7 @@ export function footer(): string {
   <div class="container">
     <div class="foot__top">
       <div class="foot__brand">
-        <a href="#inicio" aria-label="ATLANTA HUB — voltar ao início">${logo(28)}</a>
+        <a href="#inicio" aria-label="ATLANTA HUB — voltar ao início">${logo(40)}</a>
         <p class="foot__slogan">${C.BRAND.SLOGAN}</p>
       </div>
       <nav class="foot__col" aria-label="Rodapé"><p class="foot__h">Navegação</p><ul>${nav}</ul></nav>
