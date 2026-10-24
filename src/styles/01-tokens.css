@@ -1,86 +1,88 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   ATLANTA HUB · DESIGN TOKENS
-   Paleta oficial + escalas derivadas. Vermelho = sinal, nunca ruído:
-   ~90% preto/superfícies · ~8% branco/cinza · ~2% vermelho.
+   ATLANTA HUB · DESIGN TOKENS (v3 — neutro premium)
+   Grafite frio como base; vermelho da marca só como sinal:
+   botão principal, foco e pequenos destaques.
    ═══════════════════════════════════════════════════════════════════════ */
-/* Space Grotesk auto-hospedada (OFL) — a voz display não depende de CDN. */
-@font-face {
-  font-family: 'Space Grotesk';
-  src: url('../fonts/SpaceGrotesk-Variable.ttf') format('truetype');
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
-  /* Paleta oficial */
-  --black: #080808;
-  --black-2: #111111;
-  --surface: #171717;
-  --red: #ff1e24;
-  --red-hi: #ff383b;
-  --white: #f5f5f5;
-  --gray: #9ca3af;
-  /* Branco metálico e grafite (derivados dos mockups oficiais) */
-  --chrome: #d9dbe0;
-  --graphite: #2a2b2f;
+  color-scheme: dark;
 
-  /* Derivados (mesma família, sem novas matizes) */
-  --surface-2: #1c1c1c;
-  --surface-3: #232323;
-  --ink-dim: rgba(245, 245, 245, 0.62); /* texto secundário sobre preto: 9.6:1 */
-  --line: rgba(245, 245, 245, 0.075);
-  --line-2: rgba(245, 245, 245, 0.13);
-  --line-3: rgba(245, 245, 245, 0.22);
+  /* Base */
+  --bg: #0e1014;
+  --bg-2: #12141a; /* faixas alternadas, discretas */
+  --surface: #171a20;
+  --surface-2: #20242b;
+  --surface-3: #282c34;
+  --border: #2a2e36;
+  --border-2: #363b45;
+
+  /* Texto */
+  --white: #f5f6f8;
+  --gray: #9ca3af;
+  --gray-2: #c4c9d1; /* texto de apoio com mais presença */
+
+  /* Marca */
+  --red: #ff1e24;
+  --red-hi: #ff4045;
   --red-08: rgba(255, 30, 36, 0.08);
   --red-14: rgba(255, 30, 36, 0.14);
   --red-24: rgba(255, 30, 36, 0.24);
   --red-40: rgba(255, 30, 36, 0.4);
-  --red-60: rgba(255, 30, 36, 0.6);
 
-  /* Tipografia */
-  --f-display: 'Space Grotesk', 'Sora', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --f-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --f-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  /* Aliases de compatibilidade (componentes antigos) */
+  --black: var(--bg);
+  --black-2: var(--bg-2);
+  --line: var(--border);
+  --line-2: var(--border);
+  --line-3: var(--border-2);
+  --graphite: var(--surface-3);
+  --chrome: var(--gray-2);
+  --ink-dim: var(--gray);
 
-  /* Escala fluida (≈ 1.25 no mobile → 1.333 no desktop) */
-  --fs-micro: 0.6875rem;
-  --fs-xs: 0.75rem;
+  /* Tipografia — uma família, hierarquia por peso e tamanho */
+  --f-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-display: var(--f-sans);
+  --f-body: var(--f-sans);
+  --f-mono: var(--f-sans);
+
+  --fs-micro: 0.75rem;
+  --fs-xs: 0.8125rem;
   --fs-sm: 0.875rem;
   --fs-base: 1rem;
   --fs-md: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --fs-lg: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4rem);
-  --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.625rem);
-  --fs-h2: clamp(2.125rem, 1.25rem + 3.2vw, 4.25rem);
-  --fs-display: clamp(2.875rem, 1.1rem + 6.6vw, 6rem);
+  --fs-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --fs-h3: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --fs-h2: clamp(2rem, 1.35rem + 2.4vw, 3.5rem);
+  --fs-display: clamp(2.5rem, 1.45rem + 3.6vw, 4.375rem);
 
   /* Espaço */
   --gutter: clamp(20px, 4.2vw, 56px);
-  --container: 1320px;
-  --section-y: clamp(96px, 11vw, 176px);
-  --header-h: 72px;
+  --container: 1200px;
+  --section-y: clamp(96px, 11vw, 168px);
+  --header-h: 68px;
 
-  /* Forma */
+  /* Forma — três raios, usados de forma consistente */
+  --r-sm: 10px; /* botões, campos */
+  --r-md: 14px; /* cards */
+  --r-lg: 20px; /* superfícies grandes */
   --r-xs: 6px;
-  --r-sm: 10px;
-  --r-md: 16px;
-  --r-lg: 22px;
-  --r-xl: 28px;
+  --r-xl: var(--r-lg);
 
   /* Movimento */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
   --t-fast: 160ms;
-  --t-med: 320ms;
+  --t-med: 280ms;
   --t-slow: 720ms;
 
-  /* Profundidade */
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -32px rgba(0, 0, 0, 0.9);
-  --shadow-float: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 30px 70px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px var(--line-2);
+  /* Profundidade — sombras neutras, sem brilho colorido */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 20px 50px -30px rgba(0, 0, 0, 0.8);
+  --shadow-float: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 24px 60px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
+  --img-shadow: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.55));
 }
 
 @media (min-width: 1680px) {
   :root {
-    --container: 1440px;
+    --container: 1280px;
   }
 }

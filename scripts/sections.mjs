@@ -4,6 +4,7 @@ import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { startServer } from './serve.mjs';
+import { useLocalFont } from './local-font.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
@@ -17,7 +18,9 @@ const sel = ['#inicio', '#ecossistema', '#conteudos', '#plataforma', '#como-func
 
 for (const w of widths.length ? widths : [1440, 390]) {
   const page = await browser.newPage({ viewport: { width: w, height: w < 768 ? 812 : 900 } });
+  await useLocalFont(page);
   await page.goto('http://localhost:4318', { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
   await page.evaluate(async () => {
     for (let y = 0; y < document.documentElement.scrollHeight; y += 400) {
       scrollTo({ top: y, behavior: 'instant' });

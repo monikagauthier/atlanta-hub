@@ -14,7 +14,7 @@ export function finalCta(): string {
   </div>
   <div class="container final__in">
     <span class="final__mark" data-reveal="scale">${emblem(96)}</span>
-    <h2 class="final__title" id="final-title" data-reveal style="--d:1">O digital não para.<br><span class="t-red">Evolua com o Atlanta.</span></h2>
+    <h2 class="final__title" id="final-title" data-reveal style="--d:1">O digital não para.<br><span class="t-soft">Evolua com o Atlanta.</span></h2>
     <p class="final__text" data-reveal style="--d:2">Conheça a comunidade que reúne diferentes áreas do universo digital em um único ambiente.</p>
     <div data-reveal style="--d:3"><a class="btn btn--primary btn--xl btn--glow" ${checkoutAttrs('offer')}>Entrar no Atlanta Hub<span class="btn__ico">${icon('arrowRight', 20)}</span></a></div>
   </div>

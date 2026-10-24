@@ -1,6 +1,34 @@
 # Relatório de verificação — ATLANTA HUB
 
-v1: 22/10/2026 · v2 (imagens oficiais + Impeccable): 24/10/2026 · Ambiente: sandbox Linux, Node 22, Chromium headless (Playwright).
+v1: 22/10/2026 · v2 (imagens oficiais + Impeccable): 24/10/2026 · v3 (redesign premium): 24/10/2026 · Ambiente: sandbox Linux, Node 22, Chromium headless (Playwright).
+
+## v3: redesign premium
+
+### O que mudou
+
+- **Conteúdos** ("Um universo de possibilidades. Em um só lugar."): os filtros e os 31 cards saíram. O mockup oficial `kit` virou o visual principal, centralizado e com até 1040 px. Abaixo dele fica só o aviso legal. O JS dos filtros (`initCatalog`) e os dados `GROUPS` foram removidos.
+- **Paleta neutra** (`#0E1014` / `#171A20` / `#20242B` / `#F5F6F8` / `#9CA3AF` / `#2A2E36`). O vermelho `#FF1E24` ficou só no botão principal, nos pontos de status e nos ícones de confirmação. As segundas linhas dos títulos agora são cinza, não vermelhas.
+- **Efeitos:** saíram os brilhos vermelhos, o `text-shadow`, o grão e os gradientes coloridos. Ficaram sombras neutras e uma sombra de contato sob os mockups.
+- **Tipografia:** a Inter é a única família, com títulos em peso 650. Space Grotesk (`public/fonts`) e JetBrains Mono foram removidas, assim como as caixas altas e os textos mono em títulos, passos, ingresso, preço e chamada final.
+- **Padrões:** raios de 10, 14 e 20 px; espaçamento entre seções `clamp(96px, 11vw, 168px)`; um único estilo de botão primário e secundário.
+- **Hero:** o título passou a ter 2 linhas, o selo fica acima dele e o fundo foi atenuado (opacidade 0,3).
+
+### Testes executados
+
+- `tsc --noEmit`: ✓. `npm run build`: ✓. Build com subcaminho `/atlanta-hub`: ✓ (imagens com o prefixo correto).
+- `qa.mjs` em 375/390/768/1024/1440/1920 px + reduced motion: **nenhum problema**.
+  - Não há rolagem horizontal.
+  - O mockup de Conteúdos carrega com a proporção original (Δ ≤ 0,01) e fica centralizado (desvio ≤ 2 px).
+  - Não sobrou nenhum elemento de filtro ou card.
+- **Revisão visual** por seção em 1440, 1024, 768 e 390 px, com a Inter real. A fonte foi injetada localmente só no QA (`QA_FONT`), sem ir para o repositório.
+  - Problema corrigido: o título de Conteúdos quebrava em 3 linhas no desktop. Agora quebra em 2.
+- **Detector Impeccable:** de 36 para **22** achados.
+  - `cramped-padding` (10), `nested-cards` (4) e `repeated-container-text` (1) estão no mockup estilo Discord ou são falsos positivos de seções com borda superior.
+  - `low-contrast` (5): textos das abas recolhidas, com opacidade 0 durante a transição. Não ficam visíveis.
+  - `overused-font` (1): a Inter foi pedida no briefing.
+  - `marquee` (1): é a faixa de categorias, que para com `prefers-reduced-motion`.
+- **Não verificado:** a página publicada (o sandbox não acessa github.io), Safari e Firefox reais.
+
 
 ## v2: imagens oficiais e skill Impeccable
 
